@@ -1,71 +1,62 @@
-function validateProfessionalForm(event) {
-    event.preventDefault(); 
+// Função para salvar os dados do profissional no localStorage e redirecionar para a página inicial
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById("professionalForm");
 
-    const name = document.querySelector('input[name="name"]')?.value || '';
-    const cpfCnpj = document.querySelector('input[name="cpf_cnpj"]')?.value || '';
-    const email = document.querySelector('input[name="email"]')?.value || '';
-    const phone = document.querySelector('input[name="phone"]')?.value || '';
-    const profession = document.querySelector('input[name="profession"]')?.value || '';
-    const photoInput = document.querySelector('input[name="photo"]');
-    const photo = photoInput?.files[0];
+    if (form) {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const name = event.target.name.value;
+            const crm = event.target.cpf_cnpj.value;
+            const email = event.target.email.value;
+            const phone = event.target.phone.value;
+            const profession = event.target.profession.value;
+            const photoFile = event.target.photo.files[0];
 
-    if (!name || !cpfCnpj || !email || !phone || !profession || !photo) {
-        alert('Por favor, preencha todos os campos.');
-        return;
+            // Função para converter a imagem em Base64
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const photoURL = reader.result;
+                    const professionalData = {
+                        name,
+                        crm,
+                        email,
+                        phone,
+                        profession,
+                        photoURL
+                    };
+                    const professionals = JSON.parse(localStorage.getItem("professionals")) || [];
+                    professionals.push(professionalData);
+
+                    localStorage.setItem("professionals", JSON.stringify(professionals));
+
+                    window.location.href = "index.html";
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                alert("Por favor, selecione uma foto.");
+            }
+        });
+    } else {
+        displayProfessionals();
     }
+});
 
-    if (!emailPattern.test(email)) {
-        alert('Por favor, insira um email válido.');
-        return;
-    }
+// Função para exibir os dados de todos os profissionais cadastrados na página inicial
+function displayProfessionals() {
+    const professionalsGrid = document.getElementById("professionalsGrid");
+    const professionals = JSON.parse(localStorage.getItem("professionals")) || [];
 
-    const photoURL = URL.createObjectURL(photo);
+    if (professionals.length > 0) {
 
-    const profissionais = JSON.parse(localStorage.getItem("professionals")) || [];
-    profissionais.push({ name, cpfCnpj, email, phone, profession, photoURL });
-    localStorage.setItem("professionals", JSON.stringify(profissionais));
-
-    window.location.href = "index.html";
-}
-document.getElementById('professionalForm')?.addEventListener('submit', validateProfessionalForm);
-
-function loadProfessionals() {
-    const serviceList = document.getElementById('serviceList'); 
-    const professionalsGrid = document.getElementById("professionalsGrid"); 
-    const profissionais = JSON.parse(localStorage.getItem("professionals")) || [];
-
-    if (serviceList) serviceList.innerHTML = '';
-    if (professionalsGrid) professionalsGrid.innerHTML = '';
-    if (profissionais.length === 0) {
-        if (serviceList) serviceList.innerHTML = '<p>Nenhum serviço disponível no momento.</p>';
-        if (professionalsGrid) professionalsGrid.innerHTML = '<p>Nenhum serviço disponível no momento.</p>';
-        return;
-    }
-
-    profissionais.forEach(profissional => {
-        
-        if (serviceList) {
-            const professionalCard = document.createElement('div');
-            professionalCard.classList.add('professional_card');
-
-            professionalCard.innerHTML = `
-                <img src="${profissional.photoURL}" alt="${profissional.name}" class="professional_photo" />
-                <h3>${profissional.name}</h3>
-                <p>${profissional.profession}</p>
-            `;
-
-            serviceList.appendChild(professionalCard);
-        }
-
-        if (professionalsGrid) {
+        professionalsGrid.innerHTML = "";
+        professionals.forEach(professional => {
             const professionalCard = document.createElement("div");
             professionalCard.classList.add("doctors__card");
-
             professionalCard.innerHTML = `
                 <div class="doctors__card__image">
-                    <img src="${profissional.photoURL}" alt="${profissional.name}" />
+                    <img src="${professional.photoURL}" alt="${professional.name}" />
                     <div class="doctors__socials">
                         <span><i class="ri-instagram-line"></i></span>
                         <span><i class="ri-facebook-fill"></i></span>
@@ -73,16 +64,22 @@ function loadProfessionals() {
                         <span><i class="ri-twitter-fill"></i></span>
                     </div>
                 </div>
-                <h4>${profissional.name}</h4>
-                <p>${profissional.profession}</p>
+                <div class="doctors__card__content">
+                    <h4>${professional.name}</h4>
+                    <p>Especialidade: ${professional.profession}</p>
+                    <p>CRM: ${professional.crm}</p>
+                    <p>E-mail: ${professional.email}</p>
+                    <p>Telefone: ${professional.phone}</p>
+                </div>
             `;
-
             professionalsGrid.appendChild(professionalCard);
-        }
-    });
+        });
+    } else {
+        professionalsGrid.innerHTML = "<p>Nenhum serviço disponível no momento</p>";
+    }
 }
 
-window.onload = loadProfessionals;
+
 
 
   
