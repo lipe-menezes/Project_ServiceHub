@@ -12,7 +12,7 @@
             <div class="nav__logo">Service<span>Hub</span></div>
             <ul class="nav__links">
                 <li class="link"><a href="index.html">Início</a></li>
-                <!-- Adicione outros links de navegação aqui -->
+                
             </ul>
         </nav>
     </header>
@@ -20,7 +20,7 @@
     <div class="signup">
         <div class="signup__container">
             <section class="signup__section">
-                <h2>Cadastro de Profissional</h2>
+                <h2>Faça parte do time!</h2>
                 <form class="signup__form" id="professionalForm">
                     <div class="signup__field">
                         <input type="text" name="name" placeholder="Nome Completo" required />
@@ -32,12 +32,18 @@
                         <input type="email" name="email" placeholder="E-mail" required />
                     </div>
                     <div class="signup__field">
-                        <input type="tel" name="phone" placeholder="Telefone" required />
+                        <input type="tel" name="phone" placeholder="Telefone (WhatsApp)" required />
                     </div>
                     <div class="signup__field">
-                        <input type="text" name="profession" placeholder="Profissão" required />
+                        <input type="text" name="profession" placeholder="Especialidade" required />
                     </div>
                     <div class="signup__field">
+                        <input type="text" id="instagram" name="instagram" placeholder="Link para o Instagram (opcional)" />
+                    </div>
+                    <div class="signup__field">
+                        <input type="text" id="facebook" name="facebook" placeholder="Link para o Facebook (opcional)" /></div>
+                    <div class="signup__field">
+                        
                         <input type="file" name="photo" accept="image/*" required />
                     </div>
                     <button type="submit" class="signup__button">Cadastrar</button>
@@ -45,6 +51,7 @@
             </section>
         </div>
     </div>
+    <script src="registration_function.js"></script>
 </body>
 </html>
 
