@@ -29,6 +29,17 @@
   font-weight: 600;
   color: var(--text-dark);
 }
+.login{
+    padding: 0.75rem 2rem;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    white-space: nowrap;
+    color: var(--white);
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
 .btn {
   padding: 0.75rem 2rem;
@@ -596,10 +607,12 @@ body {
 }
 
 .signup {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 60px); /* Ajusta a altura para levar em conta o cabeçalho */
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f7f9fc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .signup__container {
@@ -657,6 +670,13 @@ body {
 
 .signup__button:hover {
   background-color: var(--primary-color-dark);
+}
+
+/* Estilo específico para o link do WhatsApp */
+.link_socials,
+.link_socials:visited {
+    color: inherit; /* Mantém a cor original */
+    text-decoration: none; /* Remove o sublinhado */
 }
 
 
