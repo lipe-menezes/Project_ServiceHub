@@ -21,7 +21,9 @@
           <li class="link"><a href="#professionals">Profissionais</a></li>
           <li class="link"><a href="#blog">Blog</a></li>
         </ul>
-        <button class="btn">Entre em contato</button>
+        <button id="accountButton" class="login">
+          <a href="Login_cliente.html">Acessar conta</a>
+        </button>
       </nav>
       <div class="section__container header__container" id="home">
         <div class="header__content">
@@ -33,16 +35,17 @@
             Encontre o profissional ideal para você, agende consultas de forma prática e aproveite uma experiência personalizada de cuidado.
             Estamos felizes em ajudar você a cuidar da sua saúde com confiança e simplicidade.
           </p>
-          <button class="btn">Serviços</button>
+          
         </div>
         <div class="header__form">
-          <form>
-            <h4>É novo aqui?<br>Faça seu cadastro <span><i class="ri-emotion-happy-fill"></i></span></h4>
-            <input type="text" placeholder="Nome" />
-            <input type="text" placeholder="Sobrenome" />
-            <input type="text" placeholder="E-mail" />
-            <input type="text" placeholder="Telefone" />
-            <button class="btn form__btn">Cadastrar</button>
+          <form id="clientForm">
+            <h4>É novo aqui?<br>Faça seu cadastro <span><i class="ri-emotion-happy-line"></i></span></h4>
+            <input type="text" id="fullName" placeholder="Nome completo" required />
+            <input type="number" id="cpf" placeholder="CPF" required />
+            <input type="email" id="email" placeholder="E-mail" required />
+            <input type="tel" id="phone" placeholder="Telefone" required />
+            <input type="password" id="password" placeholder="Senha" required />
+            <button type="button" class="btn form__btn" onclick="registerClient()">Cadastrar</button>
           </form>
         </div>
       </div>
@@ -180,7 +183,6 @@
           <p>Blog</p>
           <p>Termos e Condições</p>
         </div>
-
         <div class="footer__col">
           <h4>Entre em Contato</h4>
           <p>
@@ -201,6 +203,25 @@
         </div>
       </div>
     </footer>
+    
     <script src="registration_function.js"></script>
-  </body>
+    <script src="client_registration_fuction.js"></script>
+    <script src="login_cliente_function.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const accountButton = document.getElementById("accountButton");
+        const clientForm = document.getElementById("clientForm");
+        // Verifica se o usuário está logado
+        const loggedInClient = localStorage.getItem("loggedInClient");
+        if (loggedInClient) {
+          accountButton.innerHTML = '<a href="Minha_conta.html">Minha conta</a>';
+          clientForm.style.display = "none"; // Oculta o formulário de cadastro
+        }
+      });
+      function logout() {
+      localStorage.removeItem("loggedInClient");
+      window.location.reload(); // Recarrega a página para atualizar o estado de login
+}
+    </script>
+</body>
 </html>
