@@ -1,5 +1,3 @@
-import { Database } from "./services";
-
 function registerClient() {
     const fullName = document.getElementById("fullName").value;
     const cpf = document.getElementById("cpf").value;

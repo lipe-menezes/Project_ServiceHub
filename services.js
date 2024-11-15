@@ -1,31 +1,18 @@
-import { createClient } from '@supabase/supabase-js'
-
-const key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1eGRhY2dvbXVieHZyeGpqdWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3Mjg2NzMsImV4cCI6MjA0NjMwNDY3M30.RD-izZhI0GYmUNrOHtRrFYjh7lRBuabjDoQGgJZxPuk;
+const key='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1eGRhY2dvbXVieHZyeGpqdWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3Mjg2NzMsImV4cCI6MjA0NjMwNDY3M30.RD-izZhI0GYmUNrOHtRrFYjh7lRBuabjDoQGgJZxPuk';
+// const supabaseKey = process.env.SUPABASE_KEY;
 const url='https://juxdacgomubxvrxjjuhg.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(url,key);
+const database = supabase.createClient(url,key);
 
-export const utils = {
-    Input: {
-        constructor(name) {
-            this.name = name;
-        },
-        get query() {
-            return document.querySelector(this.name)
-        }
-    }
-}
-
-export const Database = {
-    Person: {
+const Database = {
+    Person: class {
         constructor(nome,cpf,email,telefone,senha) {
             this.nome = nome;
             this.cpf = cpf;
             this.email = email;
             this.telefone = telefone;
             this.senha = senha;
-        },
-        get getData() {
+        }
+        get data() {
             return {
                 nome:this.nome,
                 cpf: this.cpf,
@@ -36,12 +23,12 @@ export const Database = {
         }
     },
     add_to_Pessoa: async (person) => {
-        let res = await supabase.from("TB_PESSOA").insert({
-            NOME: person.getData().nome,
-            CPF: person.getData().cpf,
-            EMAIL: person.getData().email,
-            TELEFONE: person.getData().telefone,
-            SENHA: person.getData().senha
+        let res = await database.from("TB_PESSOA").insert({
+            NOME: person.data.nome,
+            CPF: person.data.cpf,
+            EMAIL: person.data.email,
+            TELEFONE: person.data.telefone,
+            SENHA: person.data.senha
         });
         if (res) {
             alert("Pessoa adicionada com sucesso!");
@@ -50,7 +37,7 @@ export const Database = {
         };
     },
     getPersonByTag: async (tag,value) => {
-        let res = await supabase.from("TB_PESSOA").select("*").eq(tag,value);
+        let res = await database.from("TB_PESSOA").select("*").eq(tag,value);
         if (res) {
             return {
                 nome: res.data[0].NOME,
@@ -63,7 +50,7 @@ export const Database = {
             return false;
         }
     },
-    Profissional: {
+    Profissional: class {
         constructor(nome,crm,especialidade,telefone,email,senha,instagram,facebook) {
             this.nome = nome;
             this.crm = crm;
@@ -73,8 +60,8 @@ export const Database = {
             this.senha = senha;
             this.instagram = instagram;
             this.facebook = facebook;
-        },
-        get getData() {
+        }
+        get data() {
             return {
                 nome: this.nome,
                 carteira: this.carteira,
@@ -88,19 +75,19 @@ export const Database = {
         }
     },
     add_to_Profissional: async (person) => {
-        let res = await supabase.from("TB_PROFISSIONAL").insert({
-            NOME: person.getData().nome,
-            CRM: person.getData().crm,
-            ESPECIALIDADE: person.getData().especialidade,
-            TELEFONE: person.getData().telefone,
-            EMAIL: person.getData().email,
-            SENHA: person.getData().senha,
-            FACEBOOK: person.getData().facebook,
-            INSTAGRAM: person.getData().instagram
+        let res = await database.from("TB_PROFISSIONAL").insert({
+            NOME: person.data.nome,
+            CRM: person.data.crm,
+            ESPECIALIDADE: person.data.especialidade,
+            TELEFONE: person.data.telefone,
+            EMAIL: person.data.email,
+            SENHA: person.data.senha,
+            FACEBOOK: person.data.facebook,
+            INSTAGRAM: person.data.instagram
         });
     },
     getProfByTag: async (tag,value) => {
-        const res = await supabase.from("TB_PROFISSIONAL").select("*").eq(tag,value);
+        const res = await database.from("TB_PROFISSIONAL").select("*").eq(tag,value);
         if (res) {
             return {
                 nome: res.data[0].NOME,

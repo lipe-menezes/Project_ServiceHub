@@ -1,6 +1,4 @@
 // Função para salvar os dados do profissional no localStorage e redirecionar para a página index
-import { Database } from "./services";
-
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("professionalForm");
 
@@ -17,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const facebook = event.target.facebook.value || "";   
             const photoFile = event.target.photo.files[0];
 
-            professional = new Database.Profissional(crm,profession,email,phone)
+            professional = new Database.Profissional(name,crm,profession,phone,email)
 
             // Função para converter a imagem em Base64
             if (photoFile) {

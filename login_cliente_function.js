@@ -1,5 +1,3 @@
-import { Database } from "./services";
-
 // Função para abrir o formulário de login
 function openLoginForm() {
   document.getElementById("loginForm").style.display = "block";
@@ -15,24 +13,8 @@ function login() {
   const password = document.getElementById("loginPassword").value;
 
   const client = Database.getPersonByTag("CPF",cpf);
-
-  if (client) {
-    if (client.senha === password) {
-      alert("Login realizado com sucesso!");
-      window.location.href = "index.html"; // Redireciona para a página inicial
-    } else {
-      alert("Senha incorreta. Tente novamente.");
-    }
-  } else {
-    alert("CPF não encontrado. Verifique seus dados ou cadastre-se.");
-  };
-
-  /*
-  const clientData = localStorage.getItem(`client_${cpf}`);
   
-  if (clientData) {
-    const client = JSON.parse(clientData);
-
+  if (client) {
     if (client.password === password) {
       alert("Login realizado com sucesso!");
       localStorage.setItem("loggedInClient", cpf); // Define o usuário como logado
@@ -43,5 +25,4 @@ function login() {
   } else {
     alert("CPF não encontrado. Verifique seus dados ou cadastre-se.");
   }
-  */
 }
